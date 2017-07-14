@@ -1,0 +1,5 @@
+appName: firstapp
+developer: jomit
+email: jomit@microsoft.com
+apiURL: 'http://ubuntudev.westus.cloudapp.azure.com/strato-api'
+profile: strato-dev

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<header />
+<body>
+  <div class="container">
+    <h4>Compiled Contracts</h4>
+    <div class="row">
+      <div for="(contractName,contractList) in data">
+        <h5 if=(notEmpty(contractList))> ${contractName} </h5>
+        <table class="table">
+          <tr for="contract in contractList">
+            <td>
+              <a href="/contracts/${contractName}/${contract.address}"> ${contract.address}</a>
+            </td>
+            <td>
+              <a href="/contracts/${contractName}/${contract.address}.html">Generated HTML</a>
+            </td>
+            <td>
+              <a href="/contracts/${contractName}/${contract.address}/state"> Contract State</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+

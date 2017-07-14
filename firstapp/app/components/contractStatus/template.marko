@@ -1,0 +1,12 @@
+<div for="cs in data.contractMeta">
+  <ul class="list-group">
+    <li class="list-group-item">
+      Contract Address<br>
+      <a href="${data.apiURL}/eth/v1.2/account?address=${cs.address}", target="_blank"><span class="upload-address">$cs.address</span></a>
+    </li>
+    <li class="list-group-item">
+      Contract<br>
+      <a href="/contracts/${cs.name}/${cs.address}/state", target="_blank"><span class="upload-address">State</span></a>
+    </li>
+  </ul>
+</div>

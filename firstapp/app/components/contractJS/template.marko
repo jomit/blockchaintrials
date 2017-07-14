@@ -1,0 +1,114 @@
+<script src="${data.apiURL}/static/js/ethlightjs.min.js"></script>
+<script src="${data.apiURL}/static/js/blockapps.js"></script>
+
+<script>
+
+var blockapps = require("blockapps-js");
+var PrivateKey = blockapps.ethbase.Crypto.PrivateKey;
+var Promise = require("bluebird");
+
+
+var contract = blockapps.Solidity.attach( ${JSON.stringify(data.contractMeta)} );
+blockapps.setProfile("strato-dev", '$data.apiURL');
+
+var Units = blockapps.ethbase.Units;
+
+${data.txFailedHandlerCode};
+
+function callFunc(funcName) {
+
+    var args = {};
+
+    var funcDivElts = document.getElementById(funcName + "Div").children;
+    var len = funcDivElts.length;
+
+    Object.keys(funcDivElts).map(function (key, i) {
+       console.log('key: ' + key + ' value: ' + funcDivElts[key].value + ' name: ' + funcDivElts[key].name);
+       console.log('i: ' + i);
+       console.log('comparison: ' + (key === funcDivElts[key].name));
+       if ((key === funcDivElts[key].name) && (key !== (funcName+'ValueField'))) { args[key] = funcDivElts[key].value; }
+    });
+
+    var contractAddress = contract.account.address.toString();
+    
+    console.log('args: ' + JSON.stringify(args));
+    console.log('contract name: ' + contract.name);
+    console.log('contract address: ' + contractAddress);
+
+    var invokeContractObj =
+    {
+      password: globalPassword,
+      method: funcName,
+      args: args,
+      value: funcDivElts[len-1].value
+    };
+
+    console.log("invokeContractObj: " + JSON.stringify(invokeContractObj));
+    
+    $.ajax({
+        method: "POST",
+        timeout: "60000",
+        headers: {
+            "content-type": "application/json"
+	    },
+        url: "/users/" + globalUser + "/" + globalAddress + "/contract/" + contract.name + "/" + contractAddress + "/call",
+        data: JSON.stringify(invokeContractObj),
+      })
+      .done(function (res) {
+        afterTX(res);
+    });
+}
+
+function storageAfterTX(result) {
+    var afterTXstring = "Last return value, if it was a transaction: \n  " +
+        ((result === undefined) ? "(nothing)":result);
+
+    return Promise.props(contract.state).then(function(sVars) {
+        afterTXstring += "\n\n Contract storage state:\n\n";
+        for (name in sVars) {
+            var svar = sVars[name]
+            if (typeof svar === "function") {
+                continue;
+            }
+            afterTXstring += "  " + name + " = " + svar + "\n";
+        };
+      return afterTXstring;  
+    });
+} 
+
+function contractBalanceAfterTX(txString) {
+    return contract.account.balance.then(function(bal) {
+        return txString + "\n Contract balance =  " +
+            Units.convertEth(bal).from("wei").to("ether") + " ether\n";
+    });
+}
+
+
+function userBalanceAfterTX(txString) {
+    return blockapps.ethbase.Account(globalAddress).balance.then(function(userBal) {
+        return txString + "\n Your balance     =  " +
+            Units.convertEth(userBal).from("wei").to("ether") + " ether\n";
+    });
+}
+
+
+function resetTextArea(txString)  {
+    document.getElementById("afterTXarea").textContent = txString;
+}
+
+function afterTX(result) {
+    storageAfterTX(result)
+      .then(function (txStr) { 
+          return contractBalanceAfterTX(txStr);
+        })
+      .then(function (txStr) {
+	  return userBalanceAfterTX(txStr);
+        })
+      .then(function (txStr) { 
+          resetTextArea(txStr);
+        })
+      .catch(function (err) {
+          console.log("error caught: " + err); 
+      });
+} 
+</script>

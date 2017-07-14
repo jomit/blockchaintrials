@@ -1,0 +1,14 @@
+<div id="functionsContainer">   
+  <h5>Contract Functions</h5>
+  <div for="contract in data.contractMeta" id="${data.contractMeta.name}" class="contractDiv">
+    <div for="(symbol,symbolObj) in contract.xabi.funcs">
+      <div id="${symbol}Div">
+         <button style="background-color: #223765; color: white" class="btn col-sm-12" onclick="callFunc('${symbol}')">${symbol}</button>          
+           <input class="form-control col-sm-12" type="text" name="${argName}" placeholder="${argName}" id="${symbol}${argName}" for="(argName, _) in symbolObj.args" />                                                                               
+           <input class="form-control col-sm-12" type="value" name="${symbol}ValueField" placeholder="send value in Ether" id="${symbol}ValueField" />                               
+
+    </div>
+  </div>
+
+  <textarea class="form-control" id="afterTXarea" readonly="true" rows="14"></textarea>                      
+</div>
