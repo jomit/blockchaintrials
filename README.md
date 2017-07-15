@@ -116,6 +116,8 @@ https://medium.com/@ConsenSys/solidity-integration-with-visual-studio-8bdab2ff8a
     sudo chmod +x seedConfig.sh
 
     docker images | foreach-object { $l = $PSItem.ToString(); $c = $l.Substring(0, $l.IndexOf(" ")); if ($c.ToLower().StartsWith("mspoc")) { docker rmi $c":dev"; } }
+	
+	# git delete all commit history : https://stackoverflow.com/questions/13716658/how-to-delete-all-commit-history-in-github
 
 
 

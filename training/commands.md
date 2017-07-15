@@ -201,6 +201,39 @@ debug
     - gulp serve
 
 
+# Deploying and Invoking Contracts
+
+    # Compiling
+    
+    - solc --abi ./contracts/sample.sol > ./contracts/sample.abi.json
+    - solc --bin ./contracts/sample.sol > ./contracts/sample.bin
+    - solc --combined-json abi,bin ./contracts/sample.sol > ./contracts/sample.json
+
+    # Deploying using web3
+
+    - var contract = web3.eth.contract(abiDefinition);
+    - contract.new(...)
+
+    # Invoking Contracts
+
+    - var contract = web3.eth.contract(abiDefinition);
+    - var contractInstance = contract.at(address);
+
+    - contractInstance.Method.call (...)  or
+    - contractInstance.Method.sendTransaction (...)
+
+    - web3.eth.call(...)
+    - web3.eth.sendTransaction(...)
+
+# Events and Logs
+
+
+
+
+
+
+
+
  
 
     

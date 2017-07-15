@@ -261,6 +261,80 @@ Gas
     - Even bignumber library cannot handle more than 20 floating points
 
 
+# Solidity Compiler
+
+- Most popular smart contract compiler
+- Compilation of smart contracts requires 2 parts:
+    1. Bytecode / EVM code
+        - Deployed to Blockchain
+    2. Application Binary Interface (ABI), abiDefinition
+        - Interface Definition
+        - Needed for contract deployment
+        - Needed for invoking contracts
+- Compiler Options
+    - Ethereum Wallet   :   https://github.com/ethereum/mist/releases
+    - Remix             :   https://ethereum.github.io/browser-solidity/
+    - solc              :   https://github.com/ethereum/solidity/releases
+    - node solc     
+- Install "solc" and add it to the Path
+- Solc Compiler Options
+    - solc --bin sample.sol
+    - solc --abi sample.sol
+    - solc --combined-json abi, bin... sample.sol
+    - See "sol-compile.bat" and "commands.md" files for more details on commands
+
+# Deploying and Invoking Contracts
+
+- Deployment is recoded as a transaction on the chain/ledge
+- Contract is only available after it has been mined
+- Deployment is NOT FREE. Originator of the deployment transaction pays fees for this
+- Bytecode of the contract is deployed on ALL nodes.
+- Contract Object:
+    - web3.eth.contract(abiDefinition Array) returns a contract object
+    - Contract object can be used to:
+        - Deploy contract code to EVM
+        - Invoke a contract function
+        - Watch for events from contract instance
+- We can use "Remix" to generate the web3 code for your contract and estimate gas.
+- To Invoke a Contract you need:
+    1. ABI Definition of the contract
+    2. Address of the contract
+- Example
+    - var contract = web3.eth.contract(abiDefinition);
+    - var contractInstance = contract.at(address);
+
+    - contractInstance.Method.call (...)  or
+        - This runs it locally with no state changes and no fees.
+
+    - contractInstance.Method.sendTransaction (...)
+        - This generates a transaction, runs on all nodes and performs state changes with gas fees.
+
+- We can also use below methods to invoke a contract
+    - web3.eth.call
+    - web3.eth.sendTrasaction
+
+# Ethereum Events and Logs
+
+- Contract Events are logged in event logs which are available in all nodes
+- A DAPP watching for events will get notified when the event is raised.
+- 3 Usage Patterns for events/logs:
+    1. Receive event data for Transaction
+        - To get the transaction data or return value of the method invoked, once the transaction is mined.
+    2. Asynchronous Notifications
+        - To perform any synchronous operation like external DB update or Ship product after purchase, once the transaction is mined.
+    3. Cheap data storage
+        - To access event logs for Reports and further Processing. Example - Get Encrypted Customer Identity.
+- Data Storage
+    - Log data storage cost         :   8 Gas/byte
+    - Contract data storage cost    :   20,000 Gas/byte
+    - Logs are NOT accessible from contracts
+
+
+
+
+
+
+
 
 
 
