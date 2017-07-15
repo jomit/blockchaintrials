@@ -289,30 +289,27 @@ Gas
 - Contract is only available after it has been mined
 - Deployment is NOT FREE. Originator of the deployment transaction pays fees for this
 - Bytecode of the contract is deployed on ALL nodes.
-- Contract Object:
+- Contract Object
     - web3.eth.contract(abiDefinition Array) returns a contract object
-    - Contract object can be used to:
+    - Contract object can be used to
         - Deploy contract code to EVM
         - Invoke a contract function
         - Watch for events from contract instance
 - We can use "Remix" to generate the web3 code for your contract and estimate gas.
 - To Invoke a Contract you need:
-    1. ABI Definition of the contract
-    2. Address of the contract
+    - ABI Definition of the contract
+    - Address of the contract
 - Example
     - var contract = web3.eth.contract(abiDefinition);
     - var contractInstance = contract.at(address);
-
     - contractInstance.Method.call (...)  or
         - This runs it locally with no state changes and no fees.
-
     - contractInstance.Method.sendTransaction (...)
         - This generates a transaction, runs on all nodes and performs state changes with gas fees.
-
 - We can also use below methods to invoke a contract
     - web3.eth.call
     - web3.eth.sendTrasaction
-
+    
 # Ethereum Events and Logs
 
 - Contract Events are logged in event logs which are available in all nodes
