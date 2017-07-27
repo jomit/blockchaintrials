@@ -33,3 +33,6 @@ cexit
 extexit
 cexit
 eth.accounts
+miner.start()
+miner.stop()
+miner.start()

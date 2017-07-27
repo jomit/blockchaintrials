@@ -227,6 +227,28 @@ debug
 
 # Events and Logs
 
+    - var filter = web3.eth.filter(args)     # args = event selection criteria
+        - args can be "string" or "json object"
+    - filter.watch(...)
+    - filter.stopWatching()
+    - filter.get(...)
+
+    - var contract = web3.eth.contract(abiDefinition)
+    - var contractInstance = contract.at(contract_address)
+
+    - contractInstace.allEvent(addtionalOptions)
+    - ..OR..
+    - var contractEvent = contractInstance.NumberSetEvent(indexedOptions, addtionalOptions)
+    - contractEvent.get(callback_function)
+        - Array of events
+    - contractEvent.watch(callback_function)
+        - Event data
+    - contractEvent.stopWatching(callback_function)
+
+    - 
+
+
+
 
 
 

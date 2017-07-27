@@ -325,7 +325,19 @@ Gas
     - Log data storage cost         :   8 Gas/byte
     - Contract data storage cost    :   20,000 Gas/byte
     - Logs are NOT accessible from contracts
-
+- Web3 Watch and Get API's
+    - Watch : Listens for incoming events
+    - Get   : Gets the log data
+- Ways to watch & get
+    - Using Filter API      (allows to read events from multiple contract instances)
+    - Using contract instance
+- Filter API Options
+    - Block range   (fromAddress, toAddress)
+    - Specific contract instance    ([address])
+    - Event Data
+        - Data in log fields    (topics:['event-signature','data1','data2'...])
+            - Fields marked indexed used in topics
+            - Maximum 3 indexed fields allowed & order is important
 
 
 
