@@ -245,7 +245,59 @@ debug
         - Event data
     - contractEvent.stopWatching(callback_function)
 
-    - 
+# Truffle and TestRPC
+
+    - truffle init
+
+    # Rename the truffle.js file to truffle-config.js
+
+    - truffle create contract Calculator
+
+    # Add the contract to migrations/deploy_contract.js
+    # Run testrpc
+    # Deploy contrat using migrate command
+
+    - truffle migrate
+
+    # Create test for Calulator contract
+
+    - truffle create test Calculator
+    - truffle test ./test/calculator.js
+
+    # Update the contract code and To redeploy use "truffle migrate"
+
+    # Create new deployment configuration
+
+    - truffle create migration CalculatorV1-1
+
+    # Rename migration/<foldername> to migration/calculator_v1.1.js
+    # Update the migration.js file under migration/calculator_v1.1.js
+    # Deploy the contract using new configuration
+
+    - truffle migrate -f calculator_v1.1.js
+
+    # Force compile all contracts
+
+    - truffle migrate --compile-all
+
+    # Log communication between Truffle and RPC
+
+    - truffle migrate --verbose-rpc
+
+    # Deploy to external blockchain networks
+
+    # First, add the "azure" network details in the truffle-config.js file
+
+    # Unlock the account in azure by running "geth attach" and "personal.unlockAccount()" on the Linux VM
+
+    - truffle migrate --network azure
+
+
+
+
+
+
+
 
 
 
