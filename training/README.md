@@ -340,9 +340,114 @@ Gas
             - Maximum 3 indexed fields allowed & order is important
 
 
+# Truffle and TestRPC
+
+- See commands.md file for related commands
 
 
+# Solidity Contract Layout
 
+- https://solidity.readthedocs.io/en/develop/index.html
+
+- Statically typed language, at a high level similar to OO languages
+    - Contract = Class
+    - Object Instance = Deployed contract on EVM
+- Contract Layout
+    - pragma solidity ^0.4.6        // works with compiler version 0.4.x but not 0.5.x)
+    - contract Name {               // contract name usually in PascalCase
+    -   State/Storage variables     // stored in chain as part of contract
+    -   Events                      // emitted by contracts, part of the abi definition 
+    -   Functions                   // read state (0 gas), state changes (xx gas)
+    - } 
+- Multiple Contracts
+    - Contracts can "Invoke" other contracts
+    - Contracts can "Inherit" from other contracts
+    - Contracts can "Create" other contracts on chain
+- Import contracts
+    - import "./sample.sol"
+    - We can import contracts from HTTP or Github. The support depends on the compiler implementation.
+
+# Data Types
+
+- See "truffle/contracts/BasicDatatypes.sol"
+- Value types - int, uint8, bool
+- Type Conversion
+    - Implicit
+        - compiler allows if no loss of information
+    - Explicit 
+        - potential loss of information
+    - Deduction
+        - Compiler can automatically infer type
+- Address Type
+    - 20 byte ethereum address
+    - Value Type
+    - Members
+        - balance   (returns balance in wei)
+        - transfer()
+        - send()
+- Variable Initialization
+    - Un-initialized variable is set to 0
+    - null/undefined NOT valid in Solidity
+
+
+# Memory Management
+
+- See "truffle/contracts/DataLocation.sol"
+- Memory divided into 3 parts: 
+- Storage
+    - Persistance
+    - Key-Value store (256 bit key & value)
+    - Read/Write are costly
+    - Contract can only manage its own storage
+    - Default used for State Variables & Local Variables
+- Memory
+    - Temporary
+    - Arrays & Structs
+    - Addressable at byte level
+    - Default used for Function arguments and Value Types
+- Calldata
+    - Temporary
+    - EVM code execution
+    - Non-modifiable
+    - Max size 1024, Word 256 bit
+
+# Arrays
+
+- See "truffle/contracts/Arrays.sol"
+- Static Arrays
+    - Fixed sized
+    - bool[10] array;
+    - bool element = array[4]; 
+- Dynamic Arrays
+    - Size can be changed runtime
+    - bool[] array;
+    - bool element = array[4]; 
+    - array.length = 6;   // This can be done for Storage arrays
+
+# Special Arrays
+
+- See "truffle/contracts/SpecialArrays.sol"
+- 2 special arrays : bytes & string
+- Both of of type "byte"
+    - byte1 is equal to byte[1]  // static array
+    - byte32 is equal to byte[32]  // static array
+    - bytes data; //used for dynamic arrays
+- Strings are NOT a basic type or value type
+    - It's an arbitrary length UTF-8 encoded string
+    - Dynamically sized
+    - string = bytes  (with some differences)
+    - Compared to bytes:
+        - Fixed length not supported
+        - Cannot be expanded
+        - Index access not allowed, string[7]
+        - push() not available
+- String literals
+    - can be created using " or ', e.g. "abc" or 'abc'
+    - hex literals prefixed with hex, e.g. hex"001122"
+    - supports escape characters, e.g. \n, \x, \u
+- String Functions
+    - External "StringUtil libraries
+    - Complex string operations can be costly
 
 
 
