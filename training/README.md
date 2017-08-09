@@ -449,7 +449,34 @@ Gas
     - External "StringUtil libraries
     - Complex string operations can be costly
 
+# Functions
 
+- See "truffle/contracts/Funcs.sol"
+- Output parameters
+    - Uses keyword returns(...)
+    - Multiple return parameters
+    - We can name the return parameters
+        - Named local variables available within function body
+        - Initialized to zero's
+        - Values assigned to named variable are automatically returned
+- Input parameters
+    - declare arguments with type and name        
+    - can omit name argument name if unused
+- Local Variables
+    - Scope of variable is the function body
+    - Re-declaration of the variable in the function not allowed 
+- Variables Initialization
+    - Bytes initiazlied to 0
+    - Bool to false
+    - Variables are always initialized to defaults in the beginning of the function, regardless of where they are declared in the function body.
+- Tuple types
+    - A list of objects : var (name, age) = getOwnerInfo();
+    - Different types in tuple are fine
+    - We can skip a variable in tuple
+- Function Overloading
+    - Function with same name but different input parameters is supported
+    - Contructor overloading NOT supported
+- 
 
 
 

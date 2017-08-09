@@ -5,6 +5,7 @@ contract SpecialArrays {
   // Static or fixed length byte arrays
   byte[3]    fixedByteArray;  // Both declarations will create array with 3 byte elements
   bytes3     bytes3Array;  // Both declarations will create array with 3 byte elements
+  // bytes64  byte4Array;  // Fails to compile as max size is 32 so only byte1...byte32 allowed
 
   // Dynamic bytes arrays
   byte[]    dynamicByteArray;
