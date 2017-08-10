@@ -26,8 +26,8 @@ contract SelfDestruct {
 
   // This is where the contract is destroyed
   function  killContract()  OwnerOnly {
-    //suicide(owner);
-    selfdestruct(owner);
+    suicide(owner);
+    //selfdestruct(owner);
   }
 
 }

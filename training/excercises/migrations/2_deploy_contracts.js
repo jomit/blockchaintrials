@@ -5,7 +5,6 @@ var MultiNumberBettingV3 = artifacts.require("./MultiNumberBettingV3.sol");
 var MultiNumberBettingV4 = artifacts.require("./MultiNumberBettingV4.sol");
 
 module.exports = function(deployer) {
-  // Number passed to constructor 1,3,9
   deployer.deploy(MultiNumberBettingV1,1,3,9);
   deployer.deploy(MultiNumberBettingV2,1,3,9);
   deployer.deploy(MultiNumberBettingV3,1,3,9);

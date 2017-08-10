@@ -348,16 +348,15 @@ Gas
 # Solidity Contract Layout
 
 - https://solidity.readthedocs.io/en/develop/index.html
-
 - Statically typed language, at a high level similar to OO languages
     - Contract = Class
     - Object Instance = Deployed contract on EVM
 - Contract Layout
     - pragma solidity ^0.4.6        // works with compiler version 0.4.x but not 0.5.x)
     - contract Name {               // contract name usually in PascalCase
-    -   State/Storage variables     // stored in chain as part of contract
-    -   Events                      // emitted by contracts, part of the abi definition 
-    -   Functions                   // read state (0 gas), state changes (xx gas)
+    -    State/Storage variables     // stored in chain as part of contract
+    -    Events                      // emitted by contracts, part of the abi definition 
+    -    Functions                   // read state (0 gas), state changes (xx gas)
     - } 
 - Multiple Contracts
     - Contracts can "Invoke" other contracts
@@ -366,6 +365,7 @@ Gas
 - Import contracts
     - import "./sample.sol"
     - We can import contracts from HTTP or Github. The support depends on the compiler implementation.
+
 
 # Data Types
 
@@ -647,11 +647,12 @@ Gas
 # Self Destruction Pattern
 
 - See "patterns/contracts/SelfDestruct.sol",  "patterns/exec/SelfDestruct.js"
+- Use : truffle exec ./exec/SelfDestruct.js
 - Contract Lifecycle
-    - 0) Develop Contract
-    - 1) Deployed
-    - 2) Invoked
-    - 3) Self-Destruct   (No more new transactions possible for contract, existing transaction stay foreever)
+    - 0 => Develop Contract
+    - 1 => Deployed
+    - 2 => Invoked
+    - 3 => Self-Destruct   (No more new transactions possible for contract, existing transaction stay foreever)
 - Why self destruct ?
     - Due to requirements driven by business
         - e.g. Timed bidding contract which does not allow bidding after a win
@@ -663,7 +664,51 @@ Gas
 - To prevent fund loss:
     - Remove all references to dead contracts
     - Call 'get' before send to ensure that contract is NOT dead
-- 
+
+# Contract Factory Pattern
+
+- See "patterns/contracts/ContractFactory.sol",  "patterns/exec/ContractFactory.js"
+- Use : truffle exec ./exec/ContractFactory.js
+- Use : truffle test ./test/contract_factory.js
+- Helps manage multiple instances of Contracts from within the contract instead of a DApp
+- May cost more gas as the Storage will be done on EVM instead of external storage via DApp
+- Benefits
+    - Hides the complexity & encapsulates business logic
+    - May manage the contract in a collection
+    - Insulates the DApp from contract changes & additions
+
+
+# Name Registry Pattern
+
+- See "patterns/contracts/NameRegistry.sol",  "patterns/exec/NameRegistry.js"
+- Use : truffle exec ./exec/NameRegistry.js
+- Helps to create contract instances using names instead of addresses
+- Helps manage dependencies in DApp, as the DApp does not need to change the address everytime a new contract version is deployed
+
+
+# Mapping Iterator Pattern
+
+- See "patterns/contracts/UserAddressRegistry.sol"
+- Use : truffle test ./test/user_address_registry.js
+- Helps in interating over mapping types
+- Cost of iteration will grow as the number of keys grows, as the keys will be store in an array in the contract Storage
+
+
+# Withdrawal Pattern
+
+- See "patterns/contracts/WithdrawalContract.sol"
+- Use : truffle test ./test/withdrawal_contract.js
+- Helps with resolving issues while sending ethers to a receiver or contract
+- Issues with Send pattern
+    - Payable fallback function can run out of gas
+    - Payable function can run out of gas
+    - Payable function can throw exception
+- send() vs. transfer()
+    - send() => returns false on failure but DOES NOT halt the contract execution
+    - transfer() => throws execution on failure and halts the execution.
+    - Best Practice : check return from send() or better to use transfer()
+- In withdrawal pattern:
+    - Sender contract exposes a withdraw function that the receivers invoke to get ethers
 
 
 
