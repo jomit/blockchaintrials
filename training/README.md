@@ -476,12 +476,194 @@ Gas
 - Function Overloading
     - Function with same name but different input parameters is supported
     - Contructor overloading NOT supported
+
+# Conversions, Globals and Throw
+
+- See "truffle/contracts/Globals.sol"
+- Ether Units
+    - http://eth-converter.com/extended-converter.html
+    - Coversion by suffixing literal with the Ether sub-denomination
+        - wei (default), ether, finney, szabo
+- Time
+    - now  (returns block time in seconds from 1970)
+    - Conversion by suffixing literal with time units
+        - seconds (default), minutes, hours, days, weeks, years
+- block object:
+    - block.number
+    - block.coinbase
+    - block.timestamp
+    - block.difficulty
+    - block.gaslimit
+    - block.blockhash  (returns hashs of most recent 256 blocks, excludes current)
+- msg object:
+    - msg.data      (call data in bytes)
+    - msg.sender    (caller's address)
+    - msg.sig       (function identifier, first 4 bytes of call data)
+    - msg.value     (number of 'wei' sent in the message, only available in functions that are 'payable')
+- tx object:
+    - tx.gasprice   (gas price for transaction)
+    - tx.origin     (address that originated transaction. DO NOT USE for compatibility reasons)
+        - https://ethereum.stackexchange.com/questions/196/how-do-i-make-my-dapp-serenity-proof?noredirect=1&lq=1
+        - Is different than msg.sender 
+- throw statement:  (DEPRECATED, use 'revert' intead)
+    - All state changes are reverted
+    - No ethers are sent out
+    - Ether received in transaction are returned
+    - Gas is spent, so there is still a cost
+    - Transaction is recorded in the chain; nonce is valid & recorded
+- revert   (USE THIS INSTEAD OF throw)
+    - Behaves like throw;
+    - throw uses all the gas, revert refunds the unused gas
+- assert(condition)
+    - Throws if condition is NOT met
+- require(condition)
+    - Like assert it throw if condition is NOT met
+    - assert() & require() are style exceptions
+- Crytographic Hash Function characteristics
+    - Deterministic :   message hash always same for same message
+    - Quick         :   not compute intensive
+    - Infeasible    :   cannot recreate original message from hash
+    - Any change    :   any small change in message generates completely different hash
+    - Collision resistant : different message will never get same hash
+- Crypto functions
+    - Takes multiple bytes parameters and produces 'bytes32'
+        - keccak256()
+        - sha3()        // alias to keccak256()
+        - sha256()
+    - Takes multiple bytes parameters and produces 'bytes20'
+        - ripemd160()
+
+# Complex Data Types
+
+- See "truffle/contracts/MappingEnumStruct.sol"
+- Mapping type
+    - Hashtable like structure
+    - Only available as 'storage' or 'state' variable, cannot be created as local variable in functions
+        - mapping(address => uint) balances;
+        - balances object of mapping type with address (key) and uint (value)
+    - Key can be any type (except mapping type)
+    - Value can be any type
+    - Non-existent keys will return either 0 or 0x0 based on the value type, it will NOT return null/defined.
+    - Key data is converted to hash (using keccak256) and stored, original data is NOT stored as-is
+    - It is NOT iterable
+    - No attribute for 'length'
+- Enums
+    - Used to create custom type with finite set of values
+        - enum Season  { Summer, Winter, Fall, Spring  }
+    - Not part of ABI definition, so need to use 'index' to assign values
+        - index value for 'Summer' will be 0 and 'Winter' will be 1
+    - Need to do explicit conversion to/from all integer types
+        - unit8 x = unit8(Season.Winter)
+- Struct
+    - Cannot have member of its own type
+    - Can be contained in arrays and mappings
+    - Not part of ABI definition, so external functions cannot send/receive 'struct' types
+    - Internal functions can use structs to send/receive
+    - References
+        - To update data we can use local reference of the structure instance inside a function
+        - function setItem(bytes24 name){
+        -   MyStruct localreference = item;
+        -   localreference.name = name;  // this updates item in the storage
+        - }
+    - Memory variable
+        - Default for struct type local variable is 'Storage', so cannot be defined inside functions
+
+# Object Orientation
+
+- See "truffle/contracts/ObjectOrientation.sol", "truffle/contracts/AbstractContract.sol"
+- Solidity support's 
+    - Function Overloading  (no contructor overloading)
+    - Inheritance  (abstract contracts and multiple inheritance)
+    - Polymorphism
+- Abstract Contract
+    - Cannot be deployed to EVM, can only be inherited
+    - NO special keyword for abstract contracts, need to declare a function without body to make contract abstract.
+    - If a derived class does not implement all inherited functions, also becomes an abstract contract
+- Multiple Inheritance
+    - One deployable contract gets created
+    - Inheritance copies all base contract implementations in the derived contract
+    - If base contract has functions with similar name as derived contract that it will cause error
+    - Inheritance created using the keyword 'is'
+        - e.g.  contract Test is BaseAbstractContract, NewBaseAbstractContract{  }
+    - All abstract methods should be implementd in the Test contract to be deployable
+
+# Function & Variable visibility
+
+- See "truffle/contracts/FuncTypes.sol", "truffle/contracts/FuncTypesCaller.sol"
+- Visibility
+    - public   (available to all, default for functions)
+    - private   (available only within contract)
+    - internal  (available within contract & derived contracts, default for storage variables)
+    - external   (available to external contracts, not applicable to storage variables, need to use 'this' to invoke frmo within the contract)
+
+
+# Constants and Payable
+
+- See "truffle/contracts/ConstantsPayable.sol"
+- Constant Variable
+    - Must be initialized at compile time
+    - NO storage allocated
+    - Can call builtin functions e.g. keccak256()
+    - Initialization in constructor NOT allowed
+    - Allowed only for value types & string
+    - Can be used with functions but state chagnes to contract NOT allowed from within the function, it won't throw compilation error but it won't work
+- Fallback Function
+    - An unnamed function in the contract
+    - Invoked without data
+    - Restrictions
+        - No arguments
+        - Cannot return anything
+        - Maximum gas spend = 2300 gas
+- Receiving Ethers
+    - A contract like EOA (Externally Owned Accounts) can receive Ethers
+    - A function invocation can receive Ethers
+    - Contract
+        - Can receive ether by using 'payable' fallback function
+        - Invoked when ether are received (msg.value) without data
+        - Best Practice to just log event in fallback function
+        - Trying to update storage or call a function may exceed gas and throw error and send back the ether
+    - Function
+        - Must be marked as 'payable' to receive ethers
+        - Amount sent available in 'msg.value' attribute
+        - Unlike fallback function, No gas restriction apply here
+        - Ether are held at Contract level, not at the function level
+
+# Modifiers
+
+- See "truffle/contracts/Modifiers.sol"
+- Changes the behavior of a function
+    - e.g. modifier owenerOnly { }
+- throw in the modifier will halt the execution
+- Modifiers can take arguments
+- Local variables within the modifier cannot be accessed from the function
+- A function can have multiple modifiers. Order of the modifiers DOES matter
+
+
+# Events
+
+- See "truffle/contracts/Events.sol"
+
+
+# Self Destruction Pattern
+
+- See "patterns/contracts/SelfDestruct.sol",  "patterns/exec/SelfDestruct.js"
+- Contract Lifecycle
+    - 0) Develop Contract
+    - 1) Deployed
+    - 2) Invoked
+    - 3) Self-Destruct   (No more new transactions possible for contract, existing transaction stay foreever)
+- Why self destruct ?
+    - Due to requirements driven by business
+        - e.g. Timed bidding contract which does not allow bidding after a win
+    - Due to nature of business
+        - e.g. Loan contract destroyed after loan is paid off
+- Syntax
+    - selfdestruct(owner)    // this will self destruct the contract and send the funds held in the contract to 'owner', which is the address of an account.
+- Funds sent to a self destructred contract will be LOST
+- To prevent fund loss:
+    - Remove all references to dead contracts
+    - Call 'get' before send to ensure that contract is NOT dead
 - 
-
-
-
-
-
 
 
 

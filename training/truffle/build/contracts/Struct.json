@@ -1,0 +1,14 @@
+{
+  "contract_name": "Struct",
+  "abi": [
+    {
+      "inputs": [],
+      "payable": false,
+      "type": "constructor"
+    }
+  ],
+  "unlinked_binary": "0x60606040523415600b57fe5b5b5b5b603380601b6000396000f30060606040525bfe00a165627a7a7230582033e04c3315c5d875f9da7b5f2df6cfe7401e218785417f12eb8420f176bdaf210029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1502323082445
+}
