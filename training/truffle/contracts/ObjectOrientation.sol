@@ -14,14 +14,15 @@ contract ObjectOrientation is AbstractContract, UtilContract {
   }
 
   // This function has to be implemented otherwise this contract will be abstract
-  function  calculateAgentCommission(uint16 saleAmount)  {
+  function  calculateAgentCommission(uint16 saleAmount) {
     // The commissionRate is in percentage
     agent.commission = ((100 + commissionRate)*saleAmount)/100;
   }
 
   // OVERLOADING - following two functions have the same name
-  function  getOwnerInfo() returns (string name, uint8 age){
+  function  getOwnerInfo() returns (string name, uint8 age) {
   }
-  function  getOwnerInfo(uint8 greaterThan) returns (string name, uint8 age){
+
+  function  getOwnerInfo(uint8 greaterThan) returns (string name, uint8 age) {
   }
 }

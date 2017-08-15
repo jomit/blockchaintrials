@@ -5,10 +5,10 @@ contract Calculator {
   uint result;
 
   function Calculator(uint initial) {
-    result=initial;
+    result = initial;
   }
 
-  function getResult() constant returns (uint){
+  function getResult() constant returns (uint) {
     return result;
   }
 
