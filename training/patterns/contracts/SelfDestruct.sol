@@ -5,8 +5,8 @@ contract SelfDestruct {
   address         owner;
   string  public  someValue = "NOT-VALUE";
 
-  modifier  OwnerOnly {
-    if(msg.sender != owner){
+  modifier OwnerOnly {
+    if (msg.sender != owner) {
       throw;
     } else {
       _;
@@ -19,7 +19,7 @@ contract SelfDestruct {
   }
 
   // Sets the storage variable
-  function  setValue(string value){
+  function  setValue(string value) {
     someValue = value;
     
   }

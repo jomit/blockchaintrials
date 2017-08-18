@@ -11,7 +11,7 @@ contract Storage {
     return UIntStorage[record];
   }
 
-  function setUIntValue(bytes32 record, uint value){
+  function setUIntValue(bytes32 record, uint value) {
     UIntStorage[record] = value;
   }
 

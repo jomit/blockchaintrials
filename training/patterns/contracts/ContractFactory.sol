@@ -16,7 +16,7 @@ contract  ChildContract {
   event     ChildOwnerTransfered(uint8 identity, bytes32 from, bytes32 to);
 
   // Constructor
-  function  ChildContract(uint8 id, address own, bytes32 nm){
+  function  ChildContract(uint8 id, address own, bytes32 nm) {
     identity = id;
     owner = own;
     name = nm;
@@ -46,7 +46,7 @@ contract ContractFactory {
   // Constructor
   // Creates the child contracts
   function ContractFactory(uint8  numParts, uint8   price) {
-    for(uint8 i = 0; i < numParts; i++){
+    for (uint8 i = 0; i < numParts; i++) {
       children.push(new ChildContract(i, this, "***"));
     }
     initialPrice = price;
@@ -56,11 +56,13 @@ contract ContractFactory {
 
   function  purchase(bytes32 name) payable {
 
-    if(msg.value < initialPrice) revert();
+    if (msg.value < initialPrice) {
+      revert();
+    }
     // Look for available asset i.e., one that is not sold yet
-    for(uint8 i = 0; i < children.length; i++){
+    for (uint8 i = 0; i < children.length; i++) {
       // Check if contract factoy is the owner
-      if(children[i].isOwner(this)){
+      if (children[i].isOwner(this)){
         children[i].transferOwnership(msg.sender, name);
         return;
       }

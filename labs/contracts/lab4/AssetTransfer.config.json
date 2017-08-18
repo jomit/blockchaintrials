@@ -1,0 +1,89 @@
+{
+    "AssetTransfer" : {
+        "Properties": {
+            "State": {
+                "Type": "state"
+            },
+            "Owner": {
+                "Type": "user"
+            },
+            "Description": {
+                "Type": "string"
+            },
+            "AskingPrice": {
+                "Type": "money"
+            },
+            "Buyer": {
+                "Type": "user"
+            },
+            "OfferPrice": {
+                "Type": "money"
+            },
+            "Inspector": {
+                "Type": "user"
+            },
+            "Appraiser": {
+                "Type": "user"
+            }
+        },
+        "Constructor": {
+            "description": {
+                "Type": "string"
+            },
+            "price": {
+                "Type": "money"
+            }
+        },
+        "Actions": {
+            "modify": {
+                "Parameters": {
+                    "description": {
+                        "Type": "string"
+                    },
+                    "price": {
+                        "Type": "money"
+                    }
+                }
+            },
+            "terminate": {
+                "Parameters": {}
+            },
+            "makeOffer": {
+                "Parameters": {
+                    "inspector": {
+                        "Type": "user"
+                    },
+                    "appraiser": {
+                        "Type": "user"
+                    },
+                    "offerPrice": {
+                        "Type": "money"
+                    }
+                }
+            },
+            "reject": {},
+            "acceptOffer": {},
+            "rescindOffer": {},
+            "modifyOffer": {
+                "Parameters": {
+                    "offerPrice": {
+                        "Type": "money"
+                    }
+                }
+            },
+            "accept": {},
+            "markInspected": {},
+            "markAppraised": {}
+        },
+        "Chains": {
+            "Ethereum": {
+                "Type": "Ethereum",
+                "Version": "1.0",
+                "Location": "AssetTransfer.sol",
+                "TypeName": "AssetTransfer",
+                "ActionOverrides": {},
+                "PropertyOverrides": {}
+            }
+        }
+    }
+}
