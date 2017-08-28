@@ -1,0 +1,152 @@
+{
+    "Contracts" :{
+        "TelemetryCompliance": {
+            "InitiatingRoles": [ "Admin", "User" ],
+            "Personas": { 
+                "InitiatingCounterparty": { 
+                    "Role": "Initiator", 
+                    "IsInitiator": true, 
+                    "PropertyMapping": "InitiatingCounterparty" 
+                }, 
+                "Counterparty": { 
+                    "Role": "Participant", 
+                    "PropertyMapping": "Counterparty" 
+                }, 
+                "Device": { 
+                    "Role": "Participant", 
+                    "PropertyMapping": "Device" 
+                }, 
+                "SupplyChainOwner": { 
+                    "Role": "Participant", 
+                    "PropertyMapping": "SupplyChainOwner" 
+                }, 
+                "SupplyChainObserver": { 
+                    "Role": "Participant", 
+                    "PropertyMapping": "SupplyChainObserver" 
+                } 
+            },
+            "StateProperty": "State",
+            "StateMapping": { 
+                "Creating": 0, 
+                "Created": 1, 
+                "TransitionRequestPending": 2, 
+                "InTransit": 3, 
+                "FinalDelivery": 4, 
+                "Completed": 5, 
+                "OutOfCompliance": 6 
+            },
+            "States" : {
+                "Creating": { 
+                    "PercentComplete": 0, 
+                    "IsInitiatingState": true, 
+                    "TargetState": "Created", 
+                    "Style": "Success", 
+                    "Actions": { 
+                        "InitiatingCounterparty": { 
+                            "Create": {} 
+                        } 
+                    } 
+                },
+                "Created": { 
+                    "PercentComplete": 10, 
+                    "TargetState": "InTransit", 
+                    "Style": "Success", 
+                    "Actions": { 
+                        "InitiatingCounterparty": { 
+                            "RequestTransferResponsibility": { 
+                                "DisplayName": "TransferResponsibility", 
+                                "Theme": {} 
+                            } 
+                        }, 
+                        "Device": { 
+                            "IngestTelemetry": { 
+                                "DisplayName": "IngestTelemetry", 
+                                "Theme": {} 
+                            } 
+                        } 
+                    } 
+                },
+                "TransitionRequestPending": { 
+                    "PercentComplete": 50, 
+                    "TargetState": "InTransit", 
+                    "Style": "Success", 
+                    "Actions": { 
+                        "Counterparty": { 
+                            "AcceptTransferResponsibility": { 
+                                "DisplayName": "TransferResponsibility", 
+                                "Theme": {} 
+                            } 
+                        }, 
+                        "Device": { 
+                            "IngestTelemetry": { 
+                                "DisplayName": "IngestTelemetry", 
+                                "Theme": {} 
+                            } 
+                        } 
+                    } 
+                },
+                "InTransit": { 
+                    "PercentComplete": 50, 
+                    "IsDefaultState": true, 
+                    "TargetState": "FinalDelivery", 
+                    "Style": "Success", 
+                    "Actions": { 
+                        "Counterparty": { 
+                            "RequestTransferResponsibility": { 
+                                "DisplayName": "RequestTransferResponsibility", 
+                                "Theme": {} 
+                            }, 
+                            "TakeFinalDelivery": { 
+                                "DisplayName": "TakeFinalDelivery", 
+                                "Theme": {} 
+                            } 
+                        }, 
+                        "Device": { 
+                            "IngestTelemetry": { 
+                                "DisplayName": "IngestTelemetry", 
+                                "Theme": {} 
+                            } 
+                        } 
+                    } 
+                },
+                "FinalDelivery": { 
+                    "PercentComplete": 90, 
+                    "Style": "Success", 
+                    "Actions": { 
+                        "Owner": { 
+                            "Complete": { 
+                                "DisplayName": "Complete", 
+                                "Theme": {} 
+                            } 
+                        } 
+                    } 
+                },
+                "Completed": { 
+                    "PercentComplete": 100, 
+                    "Style": "Success", 
+                    "Actions": {} 
+                }, 
+                "OutOfCompliance": { 
+                    "PercentComplete": 100, 
+                    "Style": "Failure", 
+                    "Actions": {} 
+                }
+            },
+            "Properties": {
+                "SupplyChainOwner": { 
+                    "DisplayName": "SupplyChainOwner", 
+                    "Description": "SupplyChainOwner Description" 
+                }
+            },
+            "Constructor": { 
+                "DisplayName": "Create Compliance Contract", 
+                "Description": "Monitors compliance using sensors" 
+            },
+            "Actions" : {
+                "Complete" : {
+                    "DisplayName" : "Mark as Completed"
+                }
+            }
+        }
+    }
+}

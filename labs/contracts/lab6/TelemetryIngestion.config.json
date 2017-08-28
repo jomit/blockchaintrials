@@ -1,0 +1,127 @@
+{
+    "TelemetryCompliance":{
+        "Properties": {
+			"State": {
+				"Type": "state"
+			},
+			"InitiatingCounterparty": {
+				"Type": "user"
+			},
+			"Counterparty": {
+				"Type": "user"
+			},
+			"PreviousCounterparty": {
+				"Type": "user"
+            },
+            "RequestedCounterparty": {
+				"Type": "user"
+			},
+			"Device": {
+				"Type": "user"
+			},
+			"SupplyChainOwner": {
+				"Type": "user"
+			},
+			"SupplyChainObserver": {
+				"Type": "user"
+			},
+			"MinHumidity": {
+				"Type": "uint"
+			},
+			"MaxHumidity": {
+				"Type": "uint"
+			},
+			"MinTemperature": {
+				"Type": "uint"
+			},
+			"MaxTemperature": {
+				"Type": "uint"
+			},
+			"ComplianceSensorType": {
+				"Type": "uint"
+			},
+			"ComplianceSensorReading": {
+				"Type": "uint"
+			},
+			"ComplianceStatus": {
+				"Type": "bool"
+			},
+			"ComplianceDetail": {
+				"Type": "string"
+            },
+            "LastHumidity": { 
+                "Type": "uint" 
+            }, 
+            "LastTemperature": { 
+                "Type": "uint" 
+            },
+			"LastSensorUpdateTimestamp": {
+				"Type": "uint"
+			}
+        },
+        "Constructor": {
+			"device": {
+				"Type": "user"
+			},
+			"supplyChainOwner": {
+				"Type": "user"
+			},
+			"supplyChainObserver": {
+				"Type": "user"
+			},
+			"minHumidity": {
+				"Type": "uint"
+			},
+			"maxHumidity": {
+				"Type": "uint"
+			},
+			"minTemperature": {
+				"Type": "uint"
+			},
+			"maxTemperature": {
+				"Type": "uint"
+			}
+        },
+        "Actions": { 
+            "IngestTelemetry": {
+                "Parameters": { 
+                    "humidity": { 
+                        "Type": "uint" 
+                    }, 
+                    "temperature": { 
+                        "Type": "uint"
+                    },
+                    "timestamp": {
+                        "Type": "uint"
+                    } 
+                } 
+            }, 
+            "RequestTransferResponsibility": { 
+                "Parameters": { 
+                    "newCounterparty": {
+                        "Type": "user" 
+                    } 
+                } 
+            },
+            "AcceptTransferResponsibility": { 
+                "Parameters": {} 
+            }, 
+            "TakeFinalDelivery": { 
+                "Parameters": {} 
+            },
+            "Complete": { 
+                "Parameters": {} 
+            }
+        },
+        "Chains" : {
+            "Ethereum": { 
+                "Type": "Ethereum", 
+                "Version": "1.0", 
+                "Location": "TelemetryCompliance.sol", 
+                "TypeName": "TelemetryCompliance", 
+                "ActionOverrides": {}, 
+                "PropertyOverrides": {} 
+            }
+        }
+    }
+}
