@@ -16,7 +16,7 @@
 
     - (echo -n "var storageOutput=" ; solc --optimize --combined-json abi,bin,interface Storage.sol) > storage.js
     - geth attach
-    - > loadScript('storage.js')
+    - &gt;loadScript('storage.js')
 
 - Get the abi and bin of the Contract
 
