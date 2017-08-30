@@ -1,13 +1,13 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.10;
 
-contract Storage{
+contract Storage {
     uint storedData;
 
-    function set(uint x){
+    function set(uint x) {
         storedData = x;
     }
 
-    function get() returns (uint retVal){
+    function get() returns (uint retVal) {
         return storedData;
     }
 }
