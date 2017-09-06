@@ -729,10 +729,10 @@ Gas
     `geth --datadir "./data" account new`
         
 - **Setup genesis block**
-    - Genesis file as a configuration file for your chain and creates the first block of your private chain
-    - All nodes within the chain have same 0th or first block
-    - Copy `private-ethereum\genesis.template.json`  to `node1\genesis.json`
-    - Update `<ACCOUNT ADDRESS FOT INITIAL ALLOCATION>` and `chainId`
+    Genesis file is a configuration file for your chain and creates the first block of your private chain
+    All nodes within the chain have same 0th or first block
+    Copy `private-ethereum\genesis.template.json`  to `node1\genesis.json`
+    Update `<ACCOUNT ADDRESS FOT INITIAL ALLOCATION>` and `chainId`
 
 - **Initialize the chain on 2 nodes**
     `cd node1`
@@ -751,9 +751,9 @@ Gas
     
     `geth --networkid 1010 --datadir "./data" --nodiscover --port 30303 --ipcdisable console`
 
-    - Get enode info using `admin.nodeInfo.enode` and copy it in notepad
+    Get enode info using `admin.nodeInfo.enode` and copy it in notepad
     
-    - Replace [::] with `127.0.0.1` as both nodes are on local machine
+    Replace [::] with `127.0.0.1` as both nodes are on local machine
 
 - **Add node1 as peer of node2 (Does NOT persist if node2 restarts)**
 
@@ -769,10 +769,10 @@ Gas
 
 - **Add node1 as peer of node2 (DOES persist if node2 restarts)**
 
-    - Stop node2 `exit`
+    Stop node2 `exit`
     
-    - Copy `private-ethereum\static-nodes.template.json` to `node2\data\static-nodes.json`
+    Copy `private-ethereum\static-nodes.template.json` to `node2\data\static-nodes.json`
 
-    - Replace the enode details in the static-nodes.json file
+    Replace the enode details in the static-nodes.json file
 
     `geth --networkid 1010 --datadir "./data" --nodiscover --port  30304 --ipcdisable console`
