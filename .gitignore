@@ -66,3 +66,5 @@ bin*/
 obj*/
 
 testnet/devchain/geth*/
+private-ethereum/node1/*/
+private-ethereum/node2/*/

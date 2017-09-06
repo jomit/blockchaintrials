@@ -711,6 +711,74 @@ Gas
     - Sender contract exposes a withdraw function that the receivers invoke to get ethers
 
 
+# Setup Private Ethereum Chain 
+
+- **Demo Setup**
+    - Node1
+        `port : 30303`
+    - Node2
+        `port : 30304`
+    - 2 Nodes added as peers
+
+- **Steps**
+    - Create 2 folders for `node1` and `node2`
+        `mkdir node1` , `mkdir node2`
+
+    - Create an account on node1  (make sure to copy the account address)
+        `cd node1`
+
+        `geth --datadir "./data" account new`
+        
+    - Setup genesis.json
+        - Genesis file as a configuration file for your chain and creates the first block of your private chain
+        - All nodes within the chain have same 0th or first block
+        - Copy `private-ethereum\genesis.template.json`  to `node1\genesis.json`
+        - Update `<ACCOUNT ADDRESS FOT INITIAL ALLOCATION>` and `chainId`
+
+    - Initialize the chain on 2 nodes
+        `cd node1`
+        
+        `geth --datadir "./data" init genesis.json`
+
+        copy `node1\genesis.json` to `node2\genesis.json`
+
+        `cd node2`
+        
+        `geth --datadir "./data" init genesis.json`
+
+    - Launch node1 and node 2 
+
+        - Launch node1 : `geth --networkid 1010 --datadir "./data" --nodiscover --port 30303 --ipcdisable console`
+
+        - Launch node2 : `geth --networkid 1010 --datadir "./data" --nodiscover --port  30304 --ipcdisable console`
+
+    - Get enode information
+
+        - Get enode info using `admin.nodeInfo.enode` and copy it in notepad
+        
+        - Replace [::] with `127.0.0.1` as both nodes are on local machine
+
+    - Add node1 as peer of node2 (Does NOT persist if node2 restarts)
+        `cd node2`
+
+        `admin.peers`
+
+        `admin.addPeer(<PASTE ENODE TEXT FROM NOTEPAD HERE INCLUDING QUOTES>)`
+
+        `admin.peers`
+
+    - Add node1 as peer of node2 (DOES persist if node2 restarts)
+        - Stop node2
+        
+        - Copy `private-ethereum\static-nodes.template.json` to `node2\data\static-nodes.json`
+
+        - Replace the enode details from the notepad
+
+        - Launch node2
+
+
+
+
 
 
 
