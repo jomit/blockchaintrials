@@ -714,6 +714,7 @@ Gas
 # Setup Private Ethereum Chain 
 
 - **Demo Setup**
+
     - Node1
         `port : 30303`
     - Node2
@@ -724,11 +725,13 @@ Gas
 
 
 - **Create an account on node1**  (make sure to copy the account address)
+
     `cd node1`
 
     `geth --datadir "./data" account new`
         
 - **Setup genesis block**
+
     Genesis file is a configuration file for your chain and creates the first block of your private chain
 
     All nodes within the chain have same 0th or first block
@@ -738,6 +741,7 @@ Gas
     Update `<ACCOUNT ADDRESS FOT INITIAL ALLOCATION>` and `chainId`
 
 - **Initialize the chain on 2 nodes**
+
     `cd node1`
     
     `geth --datadir "./data" init genesis.json`
