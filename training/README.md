@@ -730,8 +730,11 @@ Gas
         
 - **Setup genesis block**
     Genesis file is a configuration file for your chain and creates the first block of your private chain
+
     All nodes within the chain have same 0th or first block
+
     Copy `private-ethereum\genesis.template.json`  to `node1\genesis.json`
+    
     Update `<ACCOUNT ADDRESS FOT INITIAL ALLOCATION>` and `chainId`
 
 - **Initialize the chain on 2 nodes**
